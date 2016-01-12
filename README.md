@@ -22,10 +22,6 @@ The following **optional** features are implemented:
 (Question on how to check weather it's coming from network or cached?)
 - [ ] Customize the UI.
 
-The following **additional** features are implemented:
-
-- [ ] List anything else that you can get done to improve the app functionality!
-- [ ] Add click through
 
 ## Video Walkthrough 
 
