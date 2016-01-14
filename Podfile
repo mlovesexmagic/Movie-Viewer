@@ -3,8 +3,7 @@
 # Uncomment this line if you're using Swift
 use_frameworks!
 
-target 'MovieView' do
-    pod 'AFNetworking'
-    pod 'SwiftLoader'
+target 'MovieViewer' do
+    pod "AFNetworking"
+    pod "PKHUD"
 end
-

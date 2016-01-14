@@ -9,12 +9,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-MovieView.xcscheme</key>
+		<key>PKHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SwiftLoader.xcscheme</key>
+		<key>Pods-MovieViewer.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -22,7 +22,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>15D9FA5FDC5023497E03FAE2799E09B9</key>
+		<key>11A6D1DDBABE3715A16A998C481F870D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -32,7 +32,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CA03EF389BAE735778B95AEACA174B67</key>
+		<key>8479B4B2FE48BC1FF3AD9763D939F5CA</key>
 		<dict>
 			<key>primary</key>
 			<true/>

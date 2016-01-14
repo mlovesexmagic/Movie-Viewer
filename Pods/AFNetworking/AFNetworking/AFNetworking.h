@@ -39,8 +39,3 @@
     #import "AFHTTPSessionManager.h"
 
 #endif /* _AFNETWORKING_ */
-
-
-
-
-
