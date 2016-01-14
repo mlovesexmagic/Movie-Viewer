@@ -7,21 +7,21 @@
 //
 
 import UIKit
+import PKHUD
 
 class CollectionMovieViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var movies: [NSDictionary]?     // Instance Variables
+    var movies: [NSDictionary]?                 // Instance Variables
+    var refreshControl: UIRefreshControl!       //pull down refresh variable
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         collectionView.dataSource = self
-        
+
         fetchNetworkData()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,6 +29,7 @@ class CollectionMovieViewController: UIViewController, UICollectionViewDataSourc
         // Dispose of any resources that can be recreated.
     }
     
+    //accessing API
     func fetchNetworkData(){
         //legit api key
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
@@ -55,22 +56,25 @@ class CollectionMovieViewController: UIViewController, UICollectionViewDataSourc
                             
                             //tells the collectionView to reload its data after network made its request
                             self.collectionView.reloadData()
+                            
+                            //refresh
+                            self.refresh()
                     }
                 }
         });
         task.resume()
     }
     
+    //edited code provided by CodePath
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let movies = movies {
             return movies.count
-            
         } else {
             return 0
-            
         }
     }
     
+    //edited code provided by CodePath
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("MovieCell", forIndexPath: indexPath) as! CollectionMovieCell
         let movie = movies![indexPath.row]
@@ -82,10 +86,6 @@ class CollectionMovieViewController: UIViewController, UICollectionViewDataSourc
             cell.collectionPosterView.setImageWithURL((imageURL)!)
             cell.collectionTitleLabel.text = title
         }
-        
-        
-        
-        
         return cell
     }
     
@@ -98,45 +98,45 @@ class CollectionMovieViewController: UIViewController, UICollectionViewDataSourc
         singleMovieViewController.performSegueWithIdentifier("SingleMovie", sender: self)
     }
     
+    //push to single view
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if let indexPath = getIndexPathOfSelectedCell() {
-            let movie = movies![indexPath.row]
-            let title = movie["title"] as! String
-            let overview = movie["overview"] as! String
-            let baseURL = "http://image.tmdb.org/t/p/w342"
-            
-            if segue.identifier == "SingleMovie"
-            {
-                let singleMovieViewController = segue.destinationViewController as! SingleMovieViewController
-                singleMovieViewController.singleTitle = title
-                singleMovieViewController.singleOverView = overview
-                if let posterPath = movie["poster_path"] as? String {
-                    let imageURL = NSURL(string: baseURL + posterPath)
-                    singleMovieViewController.posterURL = imageURL!
-                }
-                
-                print(title)
-                print(indexPath)
-            }
-            
-        }
+        let cell = sender as! UICollectionViewCell
+        let indexPath = collectionView.indexPathForCell(cell)
+        let movie = movies![indexPath!.row]
         
-        
+        let singleMovieViewController = segue.destinationViewController as! SingleMovieViewController
+        singleMovieViewController.movie = movie
     }
     
-    func getIndexPathOfSelectedCell() -> NSIndexPath? {
-        
-        var indexPath:NSIndexPath?
-        
-        if collectionView.indexPathsForSelectedItems()?.count > 0 {
-            indexPath = collectionView.indexPathsForSelectedItems()![0]
-            
-        }
-        return indexPath
-        
+    //delay method part 1 re-using code from MoviesView
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
 
-
-
+    //pull down refresh method part 2 re-using code from MoviesView
+    func onRefresh() {
+        delay(1, closure: {
+            self.refreshControl.endRefreshing()
+        })
+    }
+    
+    //pull down refresh method for reload part 3 re-using code from MoviesView
+    func refresh(){
+        
+        PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        PKHUD.sharedHUD.show()
+        PKHUD.sharedHUD.hide(afterDelay: 0.5)
+        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
+        
+        self.collectionView.addSubview(self.refreshControl)
+    }
+    
 }
