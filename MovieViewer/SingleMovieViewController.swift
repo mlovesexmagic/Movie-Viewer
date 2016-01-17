@@ -23,18 +23,11 @@ class SingleMovieViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //setting size for scrollView
-//        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: singleOverview.frame.origin.y + singleOverview.frame.size.height + 100)
-
-        
-        //scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, singleOverview.frame.origin.y + singleOverview.frame.size.height + 100)
-        
-        //scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, 2300)
-        
         displaySingleView()
         refresh()
     
-        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: scrollView.frame.size.height + singleOverview.frame.size.height)
+        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: scrollView.frame.size.height + singleOverview.frame.size.height - 130)
+        
     }
 
     override func didReceiveMemoryWarning() {

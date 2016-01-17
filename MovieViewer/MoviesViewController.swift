@@ -10,23 +10,28 @@ import UIKit
 import AFNetworking
 import PKHUD
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
     
     @IBOutlet weak var tableView: UITableView!  //tableView variable
+    @IBOutlet weak var networkErrorView: UIView!    //networkErrorView
+    @IBOutlet weak var searchBar: UISearchBar!
     
     //instace variable to be seem everywhere in the class
     // "?" means optional, less likely to crash
     var movies: [NSDictionary]?
-    
+    var filteredMovies: [NSDictionary]?
     var refreshControl: UIRefreshControl!       //pull down refresh variable
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        networkErrorView.hidden = true  //hides the network error view
+        
         //initialize the cell as the MovieViewController to be the dataSource and delegate
         tableView.dataSource = self
         tableView.delegate = self
+        searchBar.delegate = self
         
         fetchNetworkData()      //calling the "fetchNetworkData" method
         refresh()               //refreshing the view
@@ -63,9 +68,17 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                             //"self" indicates "movies" within this specfic view controller
                             self.movies = responseDictionary["results"] as? [NSDictionary]
                             
+                            self.filteredMovies = self.movies
+                            
                             //tells the tableView to reload its data after network made its request
                             self.tableView.reloadData()
+                            
+                            self.networkErrorView.hidden = true
+
                     }
+                }else{
+                    self.networkErrorView.hidden = false    //shows the network error
+
                 }
         });
         task.resume()
@@ -75,8 +88,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         //if movies has data (aka not nil)
-        if let movies = movies {
-            return movies.count
+        if let filteredMovies = filteredMovies {
+            return filteredMovies.count
         }else{
             return 0
         }
@@ -93,19 +106,42 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         //"!" means resonse is not nil
         //get single movie from movies at th same position as the cell
-        let movie = movies![indexPath.row]
+        let movie = filteredMovies![indexPath.row]
         
         let title = movie["title"] as! String               //getting the movie's title
         let overview = movie["overview"] as! String         //getting the movie's overview
         
-        let posterPath = movie["poster_path"] as! String    //getting the movie's specific image address
-        
         let baseUrl = "https://image.tmdb.org/t/p/w342"      //movies' base url
-        let imageUrl = NSURL(string: baseUrl + posterPath)  //combine base url + image specific address
+        
+        
+        //getting the movie's specific image address
+        if let posterPath = movie["poster_path"] as? String {
+            let posterURL = NSURL(string: baseUrl + posterPath)
+            
+            let urlRequest = NSURLRequest(URL: posterURL!)
+            
+            cell.posterView.setImageWithURLRequest(urlRequest, placeholderImage: nil, success: { (request: NSURLRequest, response: NSHTTPURLResponse?, image: UIImage) -> Void in
+                // response is nil when image returned from cache
+                if response != nil {
+                    print("network image")
+                    cell.posterView.alpha = 0
+                    cell.posterView.image = image
+                    UIView.animateWithDuration(0.3, animations: { () -> Void in
+                        cell.posterView.alpha = 1
+                    })
+                } else {
+                    print("cached Image")
+                    cell.posterView.image = image
+                }
+                
+                }, failure: { (request: NSURLRequest, response: NSHTTPURLResponse?, error: NSError) -> Void in
+                    // There was an issue getting the image!
+            })
+        }
         
         cell.titleLabel.text = title                //display movie's title to MovieCell' titleLabel
         cell.overViewLable.text =  overview         //display movie's overview to MovieCell' overViewLable
-        cell.posterView.setImageWithURL(imageUrl!)  //display movie's image to MovieCell's posterView
+//      cell.posterView.setImageWithURL(imageUrl!)  //display movie's image to MovieCell's posterView
 
         
         //print out the "row " and the indexPath to the console
@@ -113,6 +149,37 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         return cell
     }
+    
+    
+    //search function
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            filteredMovies = movies
+        } else {
+            filteredMovies = movies?.filter({ (movie: NSDictionary) -> Bool in
+                if let title = movie["title"] as? String {
+                    if title.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil {
+                        
+                        return  true
+                    } else {
+                        return false
+                    }
+                }
+                return false
+            })
+        }
+        tableView.reloadData()
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     //delay method part 1
     func delay(delay:Double, closure:()->()) {
