@@ -35,8 +35,9 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## Notes
 
 Describe any challenges encountered while building the app.
-- Getting the fonts, background colors, and text alignment has proven to be quite difficult...
-- 
+- Accessing image through "AFNetworking"
+- Opional fade in method
+- Organzing multiple views 
 ## License
 
     Copyright [2016] [Adrian Zhipeng Mei]
