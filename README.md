@@ -23,13 +23,12 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [X] Added another view controller to display more information about a single movie.
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/28m2wgg.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
