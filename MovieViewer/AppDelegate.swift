@@ -13,32 +13,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
+
+        //reference the Main screen and get that screen's bounds
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
+        //topViewController is the first view controller the navigationController hooks to
+        //set the property to now_playing endpoint
         let nowPlayingNavigationController = storyboard.instantiateViewControllerWithIdentifier("MoviesNavigationController") as! UINavigationController
         let nowPlayingViewController = nowPlayingNavigationController.topViewController as! MoviesViewController
         nowPlayingViewController.endpoint = "now_playing"
+        //setting the "Now Playing" title inside the tab bar
         nowPlayingNavigationController.tabBarItem.title = "Now Playing"
+        //setting the image to th tap bar
         nowPlayingNavigationController.tabBarItem.image = UIImage(named:"nowPlayingPic")
         
+        //set the property to top_rated endpoint
         let topRatedNavigationController = storyboard.instantiateViewControllerWithIdentifier("MoviesNavigationController") as! UINavigationController
         let topRatedViewController = topRatedNavigationController.topViewController as! MoviesViewController
         topRatedViewController.endpoint = "top_rated"
+        //setting the "Top Rated" title inside the tab bar
         topRatedNavigationController.tabBarItem.title = "Top Rated"
         topRatedNavigationController.tabBarItem.image = UIImage(named:"topRatedPic")
 
-
         
-        let tapBarController = UITabBarController()
-        tapBarController.viewControllers = [nowPlayingNavigationController, topRatedNavigationController]
+        //tab bar controller for tapping on the screen
+        let tabBarController = UITabBarController()
+        //set the nowplaying and toprated navigation controller to the tapBarController
+        tabBarController.viewControllers = [nowPlayingNavigationController, topRatedNavigationController]
         
-        window?.rootViewController = tapBarController
+        //set the initial (aka "root") view controller
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
         
         return true
