@@ -68,7 +68,7 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
-- [ ] For the large poster, load the low resolution image first and then switch to the high resolution image when complete.
+- [x] For the large poster, load the low resolution image first and then switch to the high resolution image when complete.
 - [ ] Customize the navigation bar.
 
 The following **additional** features are implemented:
@@ -84,7 +84,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='#' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/S6M7UkZ.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
