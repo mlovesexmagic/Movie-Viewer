@@ -24,7 +24,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     var endpoint:String!        //for storing the endpoint, toprated or nowplaying
     var refreshControl: UIRefreshControl!         //refresh reload
     var filteredMovies: [NSDictionary]?     //variable for storing filtered/searched movies
-    
+
+    //
+    var currentTableView: Bool = true
+    var currentcollectionView: Bool = true
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -163,21 +167,23 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
         print("prepare for segue called")
 
-        
-        if let cell = sender as! UITableViewCell! {
-            print(sender)
+        if currentTableView == true {
+            // do somethings
+            let cell = sender as! UITableViewCell
             let indexPath = tableView.indexPathForCell(cell)
-            let movie = movies![indexPath!.row]
+            let movie = movies![indexPath!.item]
             let detailViewController = segue.destinationViewController as! DetailViewController
             detailViewController.movie = movie
             
         } else {
+            // do somethings else
             let cell = sender as! UICollectionViewCell
             let indexPath = collectionView.indexPathForCell(cell)
             let movie = movies![indexPath!.item]
             let detailViewController = segue.destinationViewController as! DetailViewController
             detailViewController.movie = movie
         }
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -296,14 +302,17 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         //check present view and prepare fromView and toView
         if self.tableView?.superview == self.view {
             (fromView, toView) = (self.tableView, self.collectionView)
+            currentcollectionView = true
+            currentTableView = false
         } else {
             (fromView, toView) = (self.collectionView, self.tableView)
+            currentcollectionView = false
+            currentTableView = true
         }
         
         toView?.frame = fromView.frame
         UIView.transitionFromView(fromView, toView: toView,
             duration: 0.4, options: UIViewAnimationOptions.TransitionFlipFromLeft, completion: nil)
-        
         
         //set the toggle image icon of the fromView/toView
         if fromView == tableView {
