@@ -31,7 +31,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchBar.barStyle = UIBarStyle.Black
 
+        
         //initialize the cell as the MovieViewController to be the dataSource and delegate
         tableView.dataSource = self
         tableView.delegate = self
@@ -100,6 +103,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         // re-using the "MovieCell" for each index
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
+        
+        // No color when the user selects cell
+        cell.selectionStyle = .Gray
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.grayColor()
+        cell.selectedBackgroundView = backgroundView
+
+        
+        
         
         //get single movie from movies at th same position as the cell
         let movie = filteredMovies![indexPath.row]
@@ -316,10 +329,19 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         //set the toggle image icon of the fromView/toView
         if fromView == tableView {
-            swapButton.setImage( UIImage(named: "TableIcon"), forState: .Normal )
+            swapButton.setImage( UIImage(named: "tableViewPic"), forState: .Normal )
         } else {
-            swapButton.setImage( UIImage(named: "CollectionIcon"), forState: .Normal )
+            swapButton.setImage( UIImage(named: "collectionViewPic"), forState: .Normal )
         }
+    }
+    
+    //Customizing the appearance of navigation bar
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        let nav = self.navigationController?.navigationBar
+        nav?.barStyle = UIBarStyle.Black
+        nav?.tintColor = UIColor.whiteColor()
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.orangeColor()]
     }
     
 }

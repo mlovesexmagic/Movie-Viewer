@@ -25,6 +25,9 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
+        
+        
         //"contentSize" enables the screen to scroll
         //"scrollView.frame.size.width" is the width of the scroll view
         //"infoView.frame.origin.y" is height of the image view

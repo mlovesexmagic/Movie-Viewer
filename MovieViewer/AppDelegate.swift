@@ -49,6 +49,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
         
+        //set tab bar color
+        UITabBar.appearance().tintColor = UIColor.blackColor()
+//        UITabBar.appearance().backgroundColor = UIColor.blackColor()
+        
+        UITabBar.appearance().backgroundColor = UIColor.redColor()
+        
         return true
     }
 
