@@ -19,10 +19,10 @@ The following **optional** features are implemented:
 - [x] Movies are displayed using a CollectionView instead of a TableView.
 - [x] User can search for a movie.
 - [x] All images fade in as they are loading.
-- [x] Customize the UI.
+- [ ] Customize the UI.
 
 The following **additional** features are implemented:
-- [x] A single view for a selected movie.
+
 
 ## Video Walkthrough 
 
@@ -64,21 +64,21 @@ The following **required** functionality is completed:
 
 - [x] User can view movie details by tapping on a cell.
 - [x] User can select from a tab bar for either **Now Playing** or **Top Rated** movies.
-- [x] Customize the selection effect of the cell.
+- [ ] Customize the selection effect of the cell.
 
 The following **optional** features are implemented:
 
 - [x] For the large poster, load the low resolution image first and then switch to the high resolution image when complete.
-- [x] Customize the navigation bar.
+- [ ] Customize the navigation bar.
 
 The following **additional** features are implemented:
 
-- [x] Alternate between table view and collection view.
+- [ ] List anything else that you can get done to improve the app functionality!
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1. A more resourceful API.
-2. UI Design.
+1. 
+2. 
 
 ## Video Walkthrough 
 
